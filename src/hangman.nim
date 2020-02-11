@@ -54,10 +54,11 @@ while true:
   disp(word, solved)
   if get_is_done(solved):
       echo "You got it!"
-      break;
+      break
   if run(word, solved):
       echo "You got letter(s)!"
   else:
       echo "oh no, no letter(s)"
       inc(stage)
       show_stage(stage)
+      if stage + 1 >= num_stages: break
