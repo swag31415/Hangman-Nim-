@@ -36,6 +36,13 @@ method disp(this: game) {.base} =
           stdout.write " _"
   echo ""
 
+method filter(this: var game) {.base} =
+  for i in 0..<this.word.len():
+    case ord(this.word[i]):
+      of 65..90: discard
+      of 97..122: discard
+      else: this.solved[i] = true
+
 method get_is_done(this: game): bool {.base} =
   var is_done = true;
   for s in this.solved:
@@ -53,6 +60,7 @@ method run(this: var game): bool {.base} =
 
 proc start_game*(word = get_word()) =
   var g = game(word: word, solved: newSeq[bool](word.len()))
+  g.filter()
   var stage = 0;
   show_stage(stage)
 
