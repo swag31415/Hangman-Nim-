@@ -1,5 +1,7 @@
 # It's hangman!
 
+const num_stages = 7
+
 proc get_word(): string =
   echo "Enter a word:"
   return readLine(stdin)
@@ -33,8 +35,21 @@ proc disp(word: string, solved: seq[bool]) =
           stdout.write " _"
   echo ""
 
+proc show_stage(stage: int) =
+  let art_file = open("assets/ascii.txt")
+  const size = 23
+
+  var line: TaintedString
+  var i = 0;
+  while readLine(art_file, line):
+    if i div size == stage mod num_stages:
+      echo line
+    inc(i)
+  
 var word = get_word()
 var solved = newSeq[bool](word.len())
+var stage = 0;
+show_stage(stage)
 while true:
   disp(word, solved)
   if get_is_done(solved):
@@ -44,3 +59,5 @@ while true:
       echo "You got letter(s)!"
   else:
       echo "oh no, no letter(s)"
+      inc(stage)
+      show_stage(stage)
