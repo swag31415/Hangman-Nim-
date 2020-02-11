@@ -6,7 +6,9 @@ proc get_word(): string =
 
 proc get_letter(): char =
   echo "Enter a letter:"
-  return readLine(stdin)[0]
+  let input = readLine(stdin)
+  if input.len() < 1: return get_letter()
+  return input[0]
 
 proc run(word: string, solved: var seq[bool]): bool =
   var guess = get_letter()
