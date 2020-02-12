@@ -6,10 +6,21 @@ proc get_word(): string =
   echo "Enter a word:"
   return readLine(stdin)
 
+proc is_letter(c: char): bool =
+  case ord(c):
+    of 65..90: return true
+    of 97..122: return true
+    else: return false
+
 proc get_letter(): char =
   echo "Enter a letter:"
   let input = readLine(stdin)
-  if input.len() < 1: return get_letter()
+  if input.len() < 1:
+    echo "Input too short"
+    return get_letter()
+  if not is_letter(input[0]):
+    echo "Input invalid"
+    return get_letter()
   return input[0]
 
 proc show_stage(stage: int) =
@@ -38,10 +49,7 @@ method disp(this: game) {.base} =
 
 method filter(this: var game) {.base} =
   for i in 0..<this.word.len():
-    case ord(this.word[i]):
-      of 65..90: discard
-      of 97..122: discard
-      else: this.solved[i] = true
+    this.solved[i] = not is_letter(this.word[i])
 
 method get_is_done(this: game): bool {.base} =
   var is_done = true;
