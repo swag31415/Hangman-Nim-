@@ -1,5 +1,7 @@
 # Module game
 
+import strutils
+
 const num_stages = 7
 
 proc get_word(): string =
@@ -61,7 +63,7 @@ method run(this: var game): bool {.base} =
   var guess = get_letter()
   var is_correct = false;
   for i in 0..<this.word.len():
-      if this.word[i] == guess:
+      if not this.solved[i] and toLowerAscii(this.word[i]) == toLowerAscii(guess):
           this.solved[i] = true;
           is_correct = true;
   return is_correct
